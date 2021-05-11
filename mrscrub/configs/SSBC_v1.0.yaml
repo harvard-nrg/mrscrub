@@ -1,0 +1,502 @@
+# Harvard Neuroinformatics Research Group 
+# SSBC de-identification profile
+dicom:
+  fields:
+  - name: AccessionNumber
+    tag:
+    - 0x0008
+    - 0x0050
+    action:
+        replace-with: ''
+  - name: Unknown
+    tag:
+    - 0x0029
+    - 0x1020
+    action:
+        delete: true
+  - name: AdditionalPatientHistory
+    tag:
+    - 0x0010
+    - 0x21B0
+    action:
+        replace-with: ''
+  - name: AdmittingDiagnosesDescription
+    tag:
+    - 0x0008
+    - 0x1080
+    action:
+        replace-with: ''
+  - name: Allergies
+    tag:
+    - 0x0010
+    - 0x2110
+    action:
+        replace-with: ''
+  - name: BranchOfService
+    tag:
+    - 0x0010
+    - 0x1081
+    action:
+        replace-with: ''
+  - name: ConfidentialityConstraintOnPatientDataDescription
+    tag:
+    - 0x0040
+    - 0x3001
+    action:
+        replace-with: ''
+  - name: ConsultingPhysicianIdentificationSequence
+    tag:
+    - 0x0008
+    - 0x009D
+    action:
+        replace-with: ''
+  - name: ConsultingPhysicianName
+    tag:
+    - 0x0008
+    - 0x009C
+    action:
+        replace-with: ''
+  - name: CountryOfResidence
+    tag:
+    - 0x0010
+    - 0x2150
+    action:
+        replace-with: ''
+  - name: CurrentPatientLocation
+    tag:
+    - 0x0038
+    - 0x0300
+    action:
+        replace-with: ''
+  - name: EthnicGroup
+    tag:
+    - 0x0010
+    - 0x2160
+    action:
+        replace-with: ''
+  - name: InsurancePlanIdentification
+    tag:
+    - 0x0010
+    - 0x1050
+    action:
+        replace-with: ''
+  - name: IssuerOfPatientID
+    tag:
+    - 0x0010
+    - 0x0021
+    action:
+        replace-with: ''
+  - name: LastMenstrualDate
+    tag:
+    - 0x0010
+    - 0x21D0
+    action:
+        replace-with: ''
+  - name: MedicalAlerts
+    tag:
+    - 0x0010
+    - 0x2000
+    action:
+        replace-with: ''
+  - name: MedicalRecordLocator
+    tag:
+    - 0x0010
+    - 0x1090
+    action:
+        replace-with: ''
+  - name: MilitaryRank
+    tag:
+    - 0x0010
+    - 0x1080
+    action:
+        replace-with: ''
+  - name: NameOfPhysiciansReadingStudy
+    tag:
+    - 0x0008
+    - 0x1060
+    action:
+        replace-with: ''
+  - name: Occupation
+    tag:
+    - 0x0010
+    - 0x2180
+    action:
+        replace-with: ''
+  - name: OtherPatientIDs
+    tag:
+    - 0x0010
+    - 0x1000
+    action:
+        replace-with: ''
+  - name: OtherPatientIDsSequence
+    tag:
+    - 0x0010
+    - 0x1002
+    action:
+        replace-with: ''
+  - name: OtherPatientNames
+    tag:
+    - 0x0010
+    - 0x1001
+    action:
+        replace-with: ''
+  - name: PatientAddress
+    tag:
+    - 0x0010
+    - 0x1040
+    action:
+        replace-with: ''
+  - name: PatientAlternativeCalendar
+    tag:
+    - 0x0010
+    - 0x0035
+    action:
+        replace-with: ''
+  - name: PatientBirthDate
+    tag:
+    - 0x0010
+    - 0x0030
+    action:
+        replace-with: ''
+  - name: PatientBirthDateInAlternativeCalendar
+    tag:
+    - 0x0010
+    - 0x0033
+    action:
+        replace-with: ''
+  - name: PatientBirthName
+    tag:
+    - 0x0010
+    - 0x1005
+    action:
+        replace-with: ''
+  - name: PatientBirthTime
+    tag:
+    - 0x0010
+    - 0x0032
+    action:
+        replace-with: ''
+  - name: PatientComments
+    tag:
+    - 0x0010
+    - 0x4000
+    action:
+        replace-with: ''
+  - name: PatientDeathDateInAlternativeCalendar
+    tag:
+    - 0x0010
+    - 0x0034
+    action:
+        replace-with: ''
+  - name: PatientID
+    tag:
+    - 0x0010
+    - 0x0020
+    action:
+        replace-with: ''
+  - name: PatientInsurancePlanCodeSequence
+    tag:
+    - 0x0010
+    - 0x0050
+    action:
+        replace-with: ''
+  - name: PatientMotherBirthName
+    tag:
+    - 0x0010
+    - 0x1060
+    action:
+        replace-with: ''
+  - name: PatientName
+    tag:
+    - 0x0010
+    - 0x0010
+    action:
+        replace-with: ''
+  - name: PatientPrimaryLanguageCodeSequence
+    tag:
+    - 0x0010
+    - 0x0101
+    action:
+        replace-with: ''
+  - name: PatientReligiousPreference
+    tag:
+    - 0x0010
+    - 0x21F0
+    action:
+        replace-with: ''
+  - name: PatientSexNeutered
+    tag:
+    - 0x0010
+    - 0x2203
+    action:
+        replace-with: ''
+  - name: PatientSize
+    tag:
+    - 0x0010
+    - 0x1020
+    action:
+        replace-with: ''
+  - name: PatientSizeCodeSequence
+    tag:
+    - 0x0010
+    - 0x1021
+    action:
+        replace-with: ''
+  - name: PatientState
+    tag:
+    - 0x0038
+    - 0x0500
+    action:
+        replace-with: ''
+  - name: PatientTelecomInformation
+    tag:
+    - 0x0010
+    - 0x2155
+    action:
+        replace-with: ''
+  - name: PatientTelephoneNumbers
+    tag:
+    - 0x0010
+    - 0x2154
+    action:
+        replace-with: ''
+  - name: PerformingPhysicianIdentificationSequence
+    tag:
+    - 0x0008
+    - 0x1052
+    action:
+        replace-with: ''
+  - name: PerformingPhysicianName
+    tag:
+    - 0x0008
+    - 0x1050
+    action:
+        replace-with: ''
+  - name: PertinentDocumentsSequence
+    tag:
+    - 0x0038
+    - 0x0100
+    action:
+        replace-with: ''
+  - name: PhysicianApprovingInterpretation
+    tag:
+    - 0x4008
+    - 0x0114
+    action:
+        replace-with: ''
+  - name: PhysiciansOfRecord
+    tag:
+    - 0x0008
+    - 0x1048
+    action:
+        replace-with: ''
+  - name: PhysiciansOfRecordIdentificationSequence
+    tag:
+    - 0x0008
+    - 0x1049
+    action:
+        replace-with: ''
+  - name: PhysiciansReadingStudyIdentificationSequence
+    tag:
+    - 0x0008
+    - 0x1062
+    action:
+        replace-with: ''
+  - name: PregnancyStatus
+    tag:
+    - 0x0010
+    - 0x21C0
+    action:
+        replace-with: ''
+  - name: ReasonForStudy
+    tag:
+    - 0x0032
+    - 0x1030
+    action:
+        replace-with: ''
+  - name: ReferencedPatientPhotoSequence
+    tag:
+    - 0x0010
+    - 0x1100
+    action:
+        replace-with: ''
+  - name: ReferringPhysicianAddress
+    tag:
+    - 0x0008
+    - 0x0092
+    action:
+        replace-with: ''
+  - name: ReferringPhysicianIdentificationSequence
+    tag:
+    - 0x0008
+    - 0x0096
+    action:
+        replace-with: ''
+  - name: ReferringPhysicianName
+    tag:
+    - 0x0008
+    - 0x0090
+    action:
+        replace-with: ''
+  - name: ReferringPhysicianTelephoneNumbers
+    tag:
+    - 0x0008
+    - 0x0094
+    action:
+        replace-with: ''
+  - name: RegionOfResidence
+    tag:
+    - 0x0010
+    - 0x2152
+    action:
+        replace-with: ''
+  - name: RequestedProcedureComments
+    tag:
+    - 0x0040
+    - 0x1400
+    action:
+        replace-with: ''
+  - name: RequestingPhysician
+    tag:
+    - 0x0032
+    - 0x1032
+    action:
+        replace-with: ''
+  - name: RequestingPhysicianIdentificationSequence
+    tag:
+    - 0x0032
+    - 0x1031
+    action:
+        replace-with: ''
+  - name: ResponsibleOrganization
+    tag:
+    - 0x0010
+    - 0x2299
+    action:
+        replace-with: ''
+  - name: ResponsiblePerson
+    tag:
+    - 0x0010
+    - 0x2297
+    action:
+        replace-with: ''
+  - name: ResponsiblePersonRole
+    tag:
+    - 0x0010
+    - 0x2298
+    action:
+        replace-with: ''
+  - name: ScheduledPerformingPhysicianIdentificationSequence
+    tag:
+    - 0x0040
+    - 0x000B
+    action:
+        replace-with: ''
+  - name: ScheduledPerformingPhysicianName
+    tag:
+    - 0x0040
+    - 0x0006
+    action:
+        replace-with: ''
+  - name: SmokingStatus
+    tag:
+    - 0x0010
+    - 0x21A0
+    action:
+        replace-with: ''
+  - name: SpecialNeeds
+    tag:
+    - 0x0038
+    - 0x0050
+    action:
+        replace-with: ''
+  - name: InstanceCreationDate
+    tag:
+    - 0x0008
+    - 0x0012
+    action:
+        replace-with: '19900101'
+  - name: StudyDate
+    tag:
+    - 0x0008
+    - 0x0020
+    action:
+        replace-with: '19900101'
+  - name: SeriesDate
+    tag:
+    - 0x0008
+    - 0x0021
+    action:
+        replace-with: '19900101'
+  - name: AcquisitionDate
+    tag:
+    - 0x0008
+    - 0x0022
+    action:
+        replace-with: '19900101'
+  - name: ContentDate
+    tag:
+    - 0x0008
+    - 0x0023
+    action:
+        replace-with: '19900101'
+  - name: PerformedProcedureStepStartDate
+    tag:
+    - 0x0040
+    - 0x0244
+    action:
+        replace-with: '19900101'
+  - name: MediaStorageSOPInstanceUID
+    tag:
+    - 0x0002
+    - 0x0003
+    action:
+        new-uid: true
+  - name: SOPInstanceUID
+    tag:
+    - 0x0008
+    - 0x0018
+    action:
+        new-uid: true
+  - name: StudyInstanceUID
+    tag:
+    - 0x0020
+    - 0x000d
+    action:
+        new-uid: true
+  - name: SeriesInstanceUID
+    tag:
+    - 0x0020
+    - 0x000e
+    action:
+        new-uid: true
+  - name: FrameOfReferenceUID
+    tag:
+    - 0x0020
+    - 0x0052
+    action:
+        new-uid: true
+  - name: PerformedProcedureStepID
+    tag:
+    - 0x0040
+    - 0x0253
+    action:
+        replace-with: '19900101'
+  - name: SiemesCSAImageHeaderVersion
+    tag:
+    - 0x0029
+    - 0x1009
+    action:
+        replace-with: '19900101'
+  - name: SiemensCSASeriesHeaderVersion
+    tag:
+    - 0x0029
+    - 0x1019
+    action:
+        replace-with: '19900101'
+  - name: DeidentificationMethod
+    tag:
+    - 0x0012
+    - 0x0063
+    action:
+        replace-with: SSBC_v1.0
