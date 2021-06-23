@@ -76,7 +76,7 @@ def main():
                     if tag not in ds and tag not in ds.file_meta:
                         continue
                     # process actions
-                    if action.get('new-uid', False):
+                    if 'new-uid' in action:
                         if name == 'StudyInstanceUID':
                             ds[tag].value = new_study_uid
                         elif name == 'SeriesInstanceUID':
@@ -87,10 +87,10 @@ def main():
                             ds.file_meta[tag].value = new_msi_uid
                         elif name == 'FrameOfReferenceUID':
                             ds[tag].value = new_for_uid
-                    elif action.get('replace-with', False):
+                    elif 'replace-with' in action:
                         replacement = action['replace-with']
                         ds[tag].value = replacement
-                    elif action.get('delete', False):
+                    elif 'delete' in action:
                         del ds[tag]
                 # save scrubbed file
                 basename = os.path.basename(instance.filename)
