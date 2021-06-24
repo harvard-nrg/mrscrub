@@ -1,7 +1,10 @@
 <img width="100" alt="logo" src="https://github.com/harvard-nrg/mrscrub/blob/main/ext/logo.png">
 
+
 Mr. Scrub: de-identify those DICOMs
 ===================================
+[![Build Status](https://travis-ci.com/harvard-nrg/mrscrub.svg?branch=main)](https://travis-ci.com/harvard-nrg/mrscrub)
+
 Mr. Scrub (or "MR scrub") is a command line tool to scrub away identifying 
 information from DICOM files.
 

@@ -3,12 +3,13 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 name = "pypi"
 
+[dev-packages]
+pytest = "*"
+
 [packages]
 pydicom = "*"
 pyyaml = "*"
 mrscrub = {editable = true, path = "."}
-
-[dev-packages]
 
 [requires]
 python_version = "3.8"
