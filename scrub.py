@@ -72,10 +72,6 @@ def main():
                     name = field['name']
                     tag = tuple(field['tag'])
                     action = field['action']
-                    # move along if tag does not exist
-                    #if tag not in ds and tag not in ds.file_meta:
-                    #    continue
-                    # process actions
                     if 'new-uid' in action:
                         if name == 'StudyInstanceUID' and tag in ds:
                             ds[tag].value = new_study_uid
@@ -90,14 +86,16 @@ def main():
                     elif 'replace-with' in action:
                         replacement = action['replace-with']
                         if name == 'RequestedProcedureID':
-                            for item in ds.RequestAttributesSequence:
-                                item[tag].value = replacement
+                            for item in ds.get('RequestAttributesSequence', list()):
+                                if tag in item:
+                                    item[tag].value = replacement
                         if tag in ds:
                             ds[tag].value = replacement
                     elif 'delete' in action:
                         if name == 'RequestedProcedureID':
-                            for item in ds.RequestAttributesSequence:
-                                del item[tag]
+                            for item in ds.get('RequestAttributesSequence', list()):
+                                if tag in item:
+                                    del item[tag]
                         if tag in ds:
                             del ds[tag]
                 # save scrubbed file
