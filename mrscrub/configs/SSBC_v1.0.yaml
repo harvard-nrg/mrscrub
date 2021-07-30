@@ -8,6 +8,18 @@ dicom:
     - 0x0050
     action:
         replace-with: ''
+  - name: StudyID
+    tag:
+    - 0x0020
+    - 0x0010
+    action:
+        replace-with: ''
+  - name: RequestedProcedureID
+    tag:
+    - 0x0040
+    - 0x1001
+    action:
+        replace-with: ''
   - name: Unknown
     tag:
     - 0x0029

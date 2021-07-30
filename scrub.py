@@ -16,7 +16,7 @@ def main():
     parser = ap.ArgumentParser()
     parser.add_argument('-i', '--input', required=True)
     parser.add_argument('-o', '--output', default='deidentified')
-    parser.add_argument('-c', '--config', default='deidentified')
+    parser.add_argument('-c', '--config', required=True)
     parser.add_argument('-v', '--verbose', action='store_true')
     args = parser.parse_args()
 
@@ -73,25 +73,33 @@ def main():
                     tag = tuple(field['tag'])
                     action = field['action']
                     # move along if tag does not exist
-                    if tag not in ds and tag not in ds.file_meta:
-                        continue
+                    #if tag not in ds and tag not in ds.file_meta:
+                    #    continue
                     # process actions
                     if 'new-uid' in action:
-                        if name == 'StudyInstanceUID':
+                        if name == 'StudyInstanceUID' and tag in ds:
                             ds[tag].value = new_study_uid
-                        elif name == 'SeriesInstanceUID':
+                        elif name == 'SeriesInstanceUID' and tag in ds:
                             ds[tag].value = new_series_uid
-                        elif name == 'SOPInstanceUID':
+                        elif name == 'SOPInstanceUID' and tag in ds:
                             ds[tag].value = instance_uids_map[instance_uid]
-                        elif name == 'MediaStorageSOPInstanceUID':
+                        elif name == 'MediaStorageSOPInstanceUID' and tag in ds.file_meta:
                             ds.file_meta[tag].value = new_msi_uid
-                        elif name == 'FrameOfReferenceUID':
+                        elif name == 'FrameOfReferenceUID' and tag in ds:
                             ds[tag].value = new_for_uid
                     elif 'replace-with' in action:
                         replacement = action['replace-with']
-                        ds[tag].value = replacement
+                        if name == 'RequestedProcedureID':
+                            for item in ds.RequestAttributesSequence:
+                                item[tag].value = replacement
+                        if tag in ds:
+                            ds[tag].value = replacement
                     elif 'delete' in action:
-                        del ds[tag]
+                        if name == 'RequestedProcedureID':
+                            for item in ds.RequestAttributesSequence:
+                                del item[tag]
+                        if tag in ds:
+                            del ds[tag]
                 # save scrubbed file
                 basename = os.path.basename(instance.filename)
                 saveas = os.path.join(args.output, basename)

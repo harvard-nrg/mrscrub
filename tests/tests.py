@@ -34,6 +34,7 @@ def test_ssbc():
         ds = pydicom.read_file(fullfile)
         assert not ds.get((0x0008, 0x0050), Empty()).value
         assert (0x0029, 0x1020) not in ds
+        assert not ds.get((0x0020, 0x0010), Empty()).value
         assert not ds.get((0x0010, 0x21b0), Empty()).value
         assert not ds.get((0x0008, 0x1080), Empty()).value
         assert not ds.get((0x0010, 0x2110), Empty()).value
@@ -115,4 +116,6 @@ def test_ssbc():
         assert ds.get((0x0029, 0x1009)).value == '19900101'
         assert ds.get((0x0029, 0x1019)).value == '19900101'
         assert not ds.get((0x0012, 0x0063), Empty()).value
+        for item in ds.RequestAttributesSequence:
+            assert not item.get((0x0040, 0x1001), Empty()).value
 
