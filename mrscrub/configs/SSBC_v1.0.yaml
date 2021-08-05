@@ -242,10 +242,22 @@ dicom:
     - 0x2203
     action:
         replace-with: ''
+  - name: PatientAge
+    tag:
+    - 0x0010
+    - 0x1010
+    action:
+        replace-with: ''
   - name: PatientSize
     tag:
     - 0x0010
     - 0x1020
+    action:
+        replace-with: ''
+  - name: PatientWeight
+    tag:
+    - 0x0010
+    - 0x1030
     action:
         replace-with: ''
   - name: PatientSizeCodeSequence

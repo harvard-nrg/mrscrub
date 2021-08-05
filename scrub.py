@@ -5,6 +5,7 @@ import time
 import yaml
 import logging
 import pydicom
+import mrscrub
 import argparse as ap
 import mrscrub.configs
 from mrscrub.scanner import Scanner
@@ -14,17 +15,19 @@ logger = logging.getLogger(os.path.basename(__file__))
 
 def main():
     parser = ap.ArgumentParser()
+    parser.register('action', 'version', VersionAction)
     parser.add_argument('-i', '--input', required=True)
     parser.add_argument('-o', '--output', default='deidentified')
     parser.add_argument('-c', '--config', required=True)
     parser.add_argument('-v', '--verbose', action='store_true')
+    parser.add_argument('--version', nargs=0, action='version')
     args = parser.parse_args()
 
     tic = time.time()
 
     level = logging.INFO
     if args.verbose:
-        level = logging.DEBUG    
+        level = logging.DEBUG
     logging.basicConfig(level=level)
 
     args.input = os.path.expanduser(args.input)
@@ -108,18 +111,21 @@ def main():
     logger.info(f'finished in {toc} secs')
 
 def update_referenced_uids(ds, instance_uids_map):
-    if 'SourceImageSequence' in ds:
-        for item in ds.SourceImageSequence:
-            ref_sop_instance_uid = item.ReferencedSOPInstanceUID
-            if ref_sop_instance_uid not in instance_uids_map:
-                instance_uids_map[ref_sop_instance_uid] = generate_uid()
-            item.ReferencedSOPInstanceUID = instance_uids_map[ref_sop_instance_uid]
-    if 'ReferencedImageSequence' in ds:
-        for item in ds.ReferencedImageSequence:
-            ref_sop_instance_uid = item.ReferencedSOPInstanceUID
-            if ref_sop_instance_uid not in instance_uids_map:
-                instance_uids_map[ref_sop_instance_uid] = generate_uid()
-            item.ReferencedSOPInstanceUID = instance_uids_map[ref_sop_instance_uid]
+    for item in ds.get('SourceImageSequence', list()):
+        ref_sop_instance_uid = item.ReferencedSOPInstanceUID
+        if ref_sop_instance_uid not in instance_uids_map:
+            instance_uids_map[ref_sop_instance_uid] = generate_uid()
+        item.ReferencedSOPInstanceUID = instance_uids_map[ref_sop_instance_uid]
+    for item in ds.get('ReferencedImageSequence', list()):
+        ref_sop_instance_uid = item.ReferencedSOPInstanceUID
+        if ref_sop_instance_uid not in instance_uids_map:
+            instance_uids_map[ref_sop_instance_uid] = generate_uid()
+        item.ReferencedSOPInstanceUID = instance_uids_map[ref_sop_instance_uid]
+
+class VersionAction(ap.Action):
+    def __call__(self, parser, namespace, values, option_string=None):
+        print(mrscrub.version())
+        parser.exit()
 
 if __name__ == '__main__':
     main()

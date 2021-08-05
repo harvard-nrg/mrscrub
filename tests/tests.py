@@ -71,7 +71,9 @@ def test_ssbc():
         assert not ds.get((0x0010, 0x0101), Empty()).value
         assert not ds.get((0x0010, 0x21f0), Empty()).value
         assert not ds.get((0x0010, 0x2203), Empty()).value
+        assert not ds.get((0x0010, 0x1010), Empty()).value
         assert not ds.get((0x0010, 0x1020), Empty()).value
+        assert not ds.get((0x0010, 0x1030), Empty()).value
         assert not ds.get((0x0010, 0x1021), Empty()).value
         assert not ds.get((0x0038, 0x0500), Empty()).value
         assert not ds.get((0x0010, 0x2155), Empty()).value
