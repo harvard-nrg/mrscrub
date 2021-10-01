@@ -33,6 +33,12 @@ To install ``mrscrub``, open a terminal and execute the following command ::
 
     python3 -m pip install --user mrscrub
 
+.. note::
+   This command will install ``scrub.py`` into ``~/.local/bin``. You'll want
+   to add this directory to your ``PATH`` with the following command ::
+
+       export PATH="~/.local/bin:$PATH"
+
 Ubuntu
 ------
 .. note::
@@ -49,6 +55,12 @@ Now, to install ``mrscrub``, open a terminal and execute the following
 command ::
 
     python3 -m pip install --user mrscrub
+
+.. note::
+   This command will install ``scrub.py`` into ``~/.local/bin``. You'll want
+   to add this directory to your ``PATH`` with the following command ::
+
+       export PATH="~/.local/bin:$PATH"
 
 Windows
 -------
