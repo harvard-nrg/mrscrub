@@ -98,6 +98,39 @@ action ::
           action:
             delete: true
 
+Templating
+----------
+``mrscrub`` includes the ability to find and replace template strings within 
+your de-identification profile before the profile is applied to your data set. 
+This functionality is best illustrated with an example.
+
+Suppose you wanted to add custom text ``Project:ProjectName`` to the Study 
+Comments field ``(0010,4000)`` for every DICOM file in your data set. However, 
+you know ahead of time that each data will need a different ``ProjectName``. 
+You could maintain a separate copy of your de-identification profile for each 
+``ProjectName``, or use template strings ::
+
+    dicom:
+      fields
+        - name: StudyComments
+            tag:
+            - 0x0010
+            - 0x4000
+            action:
+                replace-with: Project:{project}
+
+If your de-identification profile contains template strings, you can use the 
+``scrub.py --replace`` argument to replace those strings with a custom 
+value ::
+
+    scrub.py --replace project=MyProjectName
+
+You can use any number of template strings within your de-identification profile 
+and provide the corresponding key/value pair to ``--replace``, each one 
+separated by a single space ::
+
+    scub.py --replace key1=value1 key2=value2 key3=value3
+
 Example
 -------
 You can find an example de-identification profile 

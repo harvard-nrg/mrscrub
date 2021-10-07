@@ -2,6 +2,7 @@
 
 import os
 import time
+import json
 import yaml
 import logging
 import pydicom
@@ -19,6 +20,7 @@ def main():
     parser.add_argument('-i', '--input', required=True)
     parser.add_argument('-o', '--output', default='deidentified')
     parser.add_argument('-c', '--config', required=True)
+    parser.add_argument('-r', '--replace', nargs='*', action=ParseReplace)
     parser.add_argument('-v', '--verbose', action='store_true')
     parser.add_argument('--version', nargs=0, action='version')
     args = parser.parse_args()
@@ -33,21 +35,24 @@ def main():
     args.input = os.path.expanduser(args.input)
     args.output = os.path.expanduser(args.output)
 
-    # scan input directory
-    if not os.path.exists(args.output):
-        os.makedirs(args.output)    
-    logger.info('scanning input directory %s ...', args.input)
-    scanner = Scanner(args.input)
-    scanner.scan()
-
-    # load config (look for config within package first)
+    # read and render config profile (look for config within package first)
     confdir = os.path.dirname(mrscrub.configs.__file__)
     conf = os.path.join(confdir, '{0}.yaml'.format(args.config))
     if os.path.exists(conf):
         args.config = conf
     logger.info('loading config %s', args.config)
     with open(os.path.expanduser(args.config), 'r') as fo:
-        config = yaml.load(fo, Loader=yaml.FullLoader)
+        content = fo.read()
+    if args.replace:
+        content = content.format_map(SafeDict(args.replace))
+    config = yaml.load(content, Loader=yaml.FullLoader)
+
+    # scan input directory
+    if not os.path.exists(args.output):
+        os.makedirs(args.output)
+    logger.info('scanning input directory %s ...', args.input)
+    scanner = Scanner(args.input)
+    scanner.scan()
 
     # check if rewriting SOP Instance UIDs
     rewrite_instance_uids = False
@@ -126,6 +131,21 @@ class VersionAction(ap.Action):
     def __call__(self, parser, namespace, values, option_string=None):
         print(mrscrub.version())
         parser.exit()
+
+class ParseReplace(ap.Action):
+    def __call__(self, parser, namespace, values, option_string=None):
+        setattr(namespace, self.dest, dict())
+        for value in values:
+            try:
+                k,v = value.split('=')
+            except ValueError as e:
+                logger.warning('problem parsing --replace value %s', value)
+                pass
+            getattr(namespace, self.dest)[k] = v
+
+class SafeDict(dict):
+    def __missing__(self, key):
+        return '{' + key + '}'
 
 if __name__ == '__main__':
     main()
