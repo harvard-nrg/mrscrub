@@ -11,6 +11,8 @@ import argparse as ap
 import mrscrub.configs
 from mrscrub.scanner import Scanner
 from pydicom.uid import generate_uid
+from pydicom.tag import Tag
+from pydicom.datadict import dictionary_VR
 
 logger = logging.getLogger(os.path.basename(__file__))
 
@@ -80,6 +82,7 @@ def main():
                     name = field['name']
                     tag = tuple(field['tag'])
                     action = field['action']
+                    create = field['action'].get('create', False)
                     if 'new-uid' in action:
                         if name == 'StudyInstanceUID' and tag in ds:
                             ds[tag].value = new_study_uid
@@ -99,6 +102,8 @@ def main():
                                     item[tag].value = replacement
                         if tag in ds:
                             ds[tag].value = replacement
+                        elif create:
+                            ds.add_new(tag, dictionary_VR(tag), replacement)
                     elif 'delete' in action:
                         if name == 'RequestedProcedureID':
                             for item in ds.get('RequestAttributesSequence', list()):

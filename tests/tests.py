@@ -117,7 +117,7 @@ def test_ssbc():
         assert ds.get((0x0040, 0x0253)).value == '19900101'
         assert ds.get((0x0029, 0x1009)).value == '19900101'
         assert ds.get((0x0029, 0x1019)).value == '19900101'
-        assert not ds.get((0x0012, 0x0063), Empty()).value
+        assert ds.get((0x0012, 0x0063)).value == 'SSBC_v1.0' # create: true
         for item in ds.get('RequestAttributesSequence', list()):
             assert not item.get((0x0040, 0x1001), Empty()).value
 

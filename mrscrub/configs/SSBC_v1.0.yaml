@@ -524,3 +524,4 @@ dicom:
     - 0x0063
     action:
         replace-with: SSBC_v1.0
+        create: true
