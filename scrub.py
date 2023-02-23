@@ -24,7 +24,6 @@ def main():
     parser.add_argument('-o', '--output', default='deidentified')
     parser.add_argument('-c', '--config', required=True)
     parser.add_argument('-r', '--replace', nargs='*', action=ParseReplace)
-    parser.add_argument('--rename-files', action='store_true')
     parser.add_argument('-v', '--verbose', action='store_true')
     parser.add_argument('--version', nargs=0, action='version')
     args = parser.parse_args()
@@ -113,16 +112,14 @@ def main():
                                     del item[tag]
                         if tag in ds:
                             del ds[tag]
-                # save scrubbed file
-                basename = os.path.basename(instance.filename)
-                if args.rename_files:
-                    study_uid = ds['StudyInstanceUID'].value
-                    series_number = ds['SeriesNumber'].value
-                    instance_number = ds['InstanceNumber'].value
-                    prefix = f'{study_uid}-{series_number}-{instance_number}-'
-                    handle,fullfile = tempfile.mkstemp(prefix=prefix, dir=args.output, suffix='.dcm')
-                    os.close(handle)
-                    basename = os.path.basename(fullfile)
+                # save scrubbed file to deidentified file name
+                study_uid = ds['StudyInstanceUID'].value
+                series_number = ds['SeriesNumber'].value
+                instance_number = ds['InstanceNumber'].value
+                prefix = f'{study_uid}-{series_number}-{instance_number}-'
+                handle,fullfile = tempfile.mkstemp(prefix=prefix, dir=args.output, suffix='.dcm')
+                os.close(handle)
+                basename = os.path.basename(fullfile)
                 saveas = os.path.join(args.output, basename)
                 logger.debug(f'saving {saveas}')
                 ds.save_as(saveas)
