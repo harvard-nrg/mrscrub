@@ -45,6 +45,6 @@ along with an `-i|--input` directory (of DICOM files) and an `-o|--output`
 directory where you want to save the scrubbed files
 
 ```bash
-scrub.py -c SSBC_v1.0 -i <input dir> -o <output dir>
+scrub.py -c PBN_v1.0 -i <input dir> -o <output dir>
 ```
 
