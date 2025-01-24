@@ -13,7 +13,7 @@ class Scanner:
         for f in os.listdir(self.indir):
             fullfile = os.path.join(self.indir, f)
             try:
-                dcm = pydicom.read_file(fullfile)
+                dcm = pydicom.dcmread(fullfile)
             except pydicom.errors.InvalidDicomError as e:
                 logger.debug('not dicom %s', f)
             # study

@@ -31,7 +31,7 @@ def test_ssbc():
     sp.check_output(cmd)
     for f in os.listdir(tmpdir):
         fullfile = os.path.join(tmpdir, f)
-        ds = pydicom.read_file(fullfile)
+        ds = pydicom.dcmread(fullfile)
         assert not ds.get((0x0008, 0x0050), Empty()).value
         assert (0x0029, 0x1020) not in ds
         assert not ds.get((0x0020, 0x0010), Empty()).value
