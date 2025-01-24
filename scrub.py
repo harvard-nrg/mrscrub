@@ -73,7 +73,7 @@ def main():
             new_series_uid = generate_uid() # SeriesInstanceUID
             new_for_uid = generate_uid() # FrameOfReferenceUID
             for instance_uid,instance in iter(series.instances.items()):
-                ds = pydicom.read_file(instance.filename)
+                ds = pydicom.dcmread(instance.filename)
                 # update referenced SOP Instance UIDs
                 if rewrite_instance_uids:
                     if instance_uid not in instance_uids_map:
