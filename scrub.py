@@ -158,7 +158,7 @@ def update_referenced_uids(ds, instance_uids_map, update_csa=True):
             logger.debug(e)
             return
         except mrscrub.dicom.NoASCCONVError as e:
-            logger.warning(e)
+            logger.debug(e)
             return
 
         for key,value in iter(parsed.items()):
