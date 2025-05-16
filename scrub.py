@@ -164,12 +164,12 @@ def update_referenced_uids(ds, instance_uids_map, update_csa=True):
         for key,value in iter(parsed.items()):
             if not key.startswith('tReferenceImage'):
                 continue
-            ref_sop_instance_uid = value
-            if ref_sop_instance_uid not in instance_uids_map:
-                instance_uids_map[ref_sop_instance_uid] = generate_uid()
+            # replacing bytes like this needs to be exactly 
+            # the same number of bytes
+            length = len(value)
             ds[mrscrub.dicom.SiemensCSA].value = re.sub(
-                ref_sop_instance_uid.encode(),
-                instance_uids_map[ref_sop_instance_uid].encode(),
+                value.encode('ascii'),
+                ('X' * length).encode('ascii'),
                 ds[mrscrub.dicom.SiemensCSA].value
             )
 
