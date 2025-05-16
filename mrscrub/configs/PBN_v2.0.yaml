@@ -19,12 +19,6 @@ dicom:
     - 0x1001
     action:
         replace-with: ''
-  - name: Unknown
-    tag:
-    - 0x0029
-    - 0x1020
-    action:
-        delete: true
   - name: AdditionalPatientHistory
     tag:
     - 0x0010
@@ -330,7 +324,7 @@ dicom:
     - 0x0010
     - 0x21C0
     action:
-        replace-with: ''
+        replace-with: 0004
   - name: ReasonForStudy
     tag:
     - 0x0032
@@ -522,5 +516,5 @@ dicom:
     - 0x0012
     - 0x0063
     action:
-        replace-with: PBN_v1.0
+        replace-with: PBN_v2.0
         create: true
