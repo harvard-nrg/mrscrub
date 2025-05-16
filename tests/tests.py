@@ -5,6 +5,7 @@ import shutil
 import mrscrub
 import pydicom
 import tempfile
+import mrscrub.dicom
 import subprocess as sp
 
 DIR = os.path.dirname(__file__)
@@ -20,12 +21,13 @@ def crc(f):
         prev = zlib.crc32(line, prev)
     return '%X' % (prev & 0xFFFFFFFF)
 
-def test_ssbc():
+def test_pbn_1p0():
     tmpdir = tempfile.mkdtemp()
+    config = 'PBN_v1.0'
     cmd = [
         'scrub.py',
-        '-c', 'PBN_v1.0',
-        '-i', os.path.join(DICOMS, 'harvard-ssbc'),
+        '-c', config,
+        '-i', os.path.join(DICOMS, 'harvard-pbn'),
         '-o', tmpdir
     ]
     sp.check_output(cmd)
@@ -33,7 +35,11 @@ def test_ssbc():
         fullfile = os.path.join(tmpdir, f)
         ds = pydicom.dcmread(fullfile)
         assert not ds.get((0x0008, 0x0050), Empty()).value
-        assert (0x0029, 0x1020) not in ds
+        parsed = dict()
+        if config == 'PBN_v1.0':
+            assert (0x0029, 0x1020) not in ds
+        else:
+            parsed = mrscrub.dicom.parse_csa(ds)
         assert not ds.get((0x0020, 0x0010), Empty()).value
         assert not ds.get((0x0010, 0x21b0), Empty()).value
         assert not ds.get((0x0008, 0x1080), Empty()).value
@@ -114,10 +120,14 @@ def test_ssbc():
         assert str(ds.get((0x0020, 0x000d)).value).startswith('1.2.826.0.1.3680043.8.498')
         assert str(ds.get((0x0020, 0x000e)).value).startswith('1.2.826.0.1.3680043.8.498')
         assert str(ds.get((0x0020, 0x0052)).value).startswith('1.2.826.0.1.3680043.8.498')
+        for key,value in iter(parsed.items()):
+            if not key.startswith('tReferenceImage'):
+                continue
+            assert value.startswith('foo')#1.2.826.0.1.3680043.8.498')
         assert ds.get((0x0040, 0x0253)).value == '19900101'
         assert ds.get((0x0029, 0x1009)).value == '19900101'
         assert ds.get((0x0029, 0x1019)).value == '19900101'
-        assert ds.get((0x0012, 0x0063)).value == 'PBN_v1.0' # create: true
+        assert ds.get((0x0012, 0x0063)).value == config
         for item in ds.get('RequestAttributesSequence', list()):
             assert not item.get((0x0040, 0x1001), Empty()).value
 
