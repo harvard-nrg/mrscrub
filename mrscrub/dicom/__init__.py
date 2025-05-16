@@ -11,7 +11,7 @@ def parse_csa(ds):
     value = bytearr.decode(errors='ignore')
     match = re.search(r'### ASCCONV BEGIN.*?###(.*)### ASCCONV END ###', value, re.DOTALL)
     if not match:
-      raise NoASCCONVError('could not find ASCCONV section in {ds.SOPInstanceUID}')
+      raise NoASCCONVError(f'could not find ASCCONV section in {ds.SOPInstanceUID}')
     ascconv = match.group(1).strip()
     for line in ascconv.split('\n'):
         match = re.match(r'(.*?)\s+=\s+(.*)', line)

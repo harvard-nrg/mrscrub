@@ -39,7 +39,8 @@ def main():
         level = logging.DEBUG
     logging.basicConfig(level=level)
 
-    # search for configuration file
+    # search for and load configuration file
+    config = None
     confdir = Path(mrscrub.configs.__file__).parent
     search = [
         args.config,
@@ -48,13 +49,13 @@ def main():
     ]
     for path in search:
         if path.exists():
-            args.config = path
+            config = path
             break
-    if not args.config.exists():
+    if not config:
         logger.critical(f'could not find configuration file {args.config}')
         sys.exit(1)
-    logger.info(f'loading configuration file {args.config}')
-    with open(args.config, 'r') as fo:
+    logger.info(f'loading configuration file {config}')
+    with open(config, 'r') as fo:
         content = fo.read()
     config = yaml.load(content, Loader=yaml.FullLoader)
 
@@ -120,6 +121,7 @@ def main():
                                     del item[tag]
                         if tag in ds:
                             del ds[tag]
+
                 # save scrubbed file to deidentified file name
                 study_uid = ds['StudyInstanceUID'].value
                 series_number = ds['SeriesNumber'].value
