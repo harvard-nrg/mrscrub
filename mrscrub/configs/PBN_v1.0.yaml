@@ -330,7 +330,7 @@ dicom:
     - 0x0010
     - 0x21C0
     action:
-        replace-with: ''
+        replace-with: 0004
   - name: ReasonForStudy
     tag:
     - 0x0032
