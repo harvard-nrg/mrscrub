@@ -1,6 +1,6 @@
 __title__ = 'mrscrub'
 __description__ = 'MR data deidentifer'
 __url__ = 'https://github.com/harvard-nrg/mrscrub'
-__version__ = '0.3.2'
+__version__ = '0.4.0'
 __author__ = 'Neuroinformatics Research Group'
 __author_email__ = 'info@neuroinfo.org'

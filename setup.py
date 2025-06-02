@@ -5,7 +5,8 @@ here = os.path.abspath(os.path.dirname(__file__))
 
 requires = [
     'pydicom',
-    'pyyaml'
+    'pyyaml',
+    'tqdm'
 ]
 
 test_requirements = [

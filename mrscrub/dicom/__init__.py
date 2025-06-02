@@ -1,26 +1,27 @@
-import re
+class Tags:
+    CSA = {
+        (0x0029, 0x1020): 'CSASeriesHeaderInfo',
+        (0x0029, 0x1010): 'CSAImageHeaderInfo'
+    }
 
-SiemensCSA = (0x0029, 0x1020)
+    STUDY_UIDS = {
+         (0x0020, 0x000d): 'StudyInstanceUID'
+    }
 
-def parse_csa(ds):
-    result = dict()
-    if SiemensCSA not in ds:
-        header = ', '.join(f'0x{val:04x}' for val in SiemensCSA)
-        raise NoCSAHeaderError(f'could not find ({header}) in {ds.SOPInstanceUID}')
-    bytearr = ds[SiemensCSA].value
-    value = bytearr.decode(errors='ignore')
-    match = re.search(r'### ASCCONV BEGIN.*?###(.*)### ASCCONV END ###', value, re.DOTALL)
-    if not match:
-      raise NoASCCONVError(f'could not find ASCCONV section in {ds.SOPInstanceUID}')
-    ascconv = match.group(1).strip()
-    for line in ascconv.split('\n'):
-        match = re.match(r'(.*?)\s+=\s+(.*)', line)
-        key,value = match.groups()
-        result[key] = value.strip('"')
-    return result
+    SERIES_UIDS = {
+        (0x0020, 0x000e): 'SeriesInstanceUID',
+        (0x0020, 0x0052): 'FrameOfReferenceUID'
+    }
 
-class NoCSAHeaderError(Exception):
-    pass
+    INSTANCE_UIDS = {
+        (0x0008, 0x0018): 'SOPInstanceUID',
+        (0x0002, 0x0003): 'MediaStorageSOPInstanceUID'
+    }
 
-class NoASCCONVError(Exception):
-    pass
+    ALL_UIDS = {
+        **STUDY_UIDS,
+        **SERIES_UIDS,
+        **INSTANCE_UIDS
+    }
+
+tags = Tags()

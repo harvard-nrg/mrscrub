@@ -3,8 +3,6 @@
 
 Mr. Scrub: de-identify those DICOMs
 ===================================
-[![Build Status](https://travis-ci.com/harvard-nrg/mrscrub.svg?branch=main)](https://travis-ci.com/harvard-nrg/mrscrub)
-
 Mr. Scrub (or "MR scrub") is a command line tool to scrub away identifying 
 information from DICOM files.
 
@@ -26,7 +24,7 @@ python -m pip install mrscrub
 
 ## De-identification profiles
 De-identification profiles determine which DICOM fields should be scubbed and 
-how. You can find an example profile [here](https://github.com/harvard-nrg/mrscrub/blob/main/mrscrub/configs/SSBC_v1.0.yaml).
+how. You can find an example profile [here](https://github.com/harvard-nrg/mrscrub/blob/main/mrscrub/configs/PBN_v2.0.yaml).
 ``mrscrub`` ships with some profiles by default, which you can load with
 
 ```bash
@@ -45,6 +43,6 @@ along with an `-i|--input` directory (of DICOM files) and an `-o|--output`
 directory where you want to save the scrubbed files
 
 ```bash
-scrub.py -c PBN_v1.0 -i <input dir> -o <output dir>
+scrub.py -c PBN_v2.0 -i <input dir> -o <output dir>
 ```
 

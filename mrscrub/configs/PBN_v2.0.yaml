@@ -1,6 +1,26 @@
 # Harvard Neuroinformatics Research Group 
 dicom:
   fields:
+  - name: SiemensCSASeriesHeaderVersion
+    tag:
+    - 0x0029
+    - 0x1019
+    action:
+        replace-with: '19900101'
+  - name: SiemensCSASeriesHeaderInfo
+    tag:
+    - 0x0029
+    - 0x1020
+  - name: SiemensCSAImageHeaderVersion
+    tag:
+    - 0x0029
+    - 0x1009
+    action:
+        replace-with: '19900101'
+  - name: SiemensCSAImageHeaderInfo
+    tag:
+    - 0x0029
+    - 0x1010
   - name: AccessionNumber
     tag:
     - 0x0008
@@ -463,6 +483,22 @@ dicom:
     - 0x0244
     action:
         replace-with: '19900101'
+  - name: ImageComments
+    tag:
+    - 0x0020
+    - 0x4000
+    action:
+        replace-sub:
+            pattern: '\w+@bbl:\w+'
+            replace-with: ''
+  - name: StudyComments
+    tag:
+    - 0x0032
+    - 0x4000
+    action:
+        replace-sub:
+            pattern: '\w+@bbl:\w+'
+            replace-with: ''
   - name: MediaStorageSOPInstanceUID
     tag:
     - 0x0002
@@ -497,18 +533,6 @@ dicom:
     tag:
     - 0x0040
     - 0x0253
-    action:
-        replace-with: '19900101'
-  - name: SiemesCSAImageHeaderVersion
-    tag:
-    - 0x0029
-    - 0x1009
-    action:
-        replace-with: '19900101'
-  - name: SiemensCSASeriesHeaderVersion
-    tag:
-    - 0x0029
-    - 0x1019
     action:
         replace-with: '19900101'
   - name: DeidentificationMethod
