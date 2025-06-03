@@ -4,7 +4,6 @@ import logging
 import pydicom
 import mrscrub.dicom
 from pathlib import Path
-from collections import defaultdict
 from pydicom.uid import generate_uid
 
 logger = logging.getLogger(__name__)
@@ -14,7 +13,7 @@ class Scanner:
         self.path = path
         self.studies = dict()
         self.num_dicoms = 0
-        self.uid_mapping = UIDMap()
+        self.uid_mapping = None
 
     def scan(self, recursive=False):
         for path in self.walk(recursive):
@@ -25,6 +24,8 @@ class Scanner:
             except pydicom.errors.InvalidDicomError as e:
                 logger.debug(f'not a dicom file {path.name}')
             # maintain mapping of uids to randomly generated uids
+            if not self.uid_mapping:
+                self.uid_mapping = UIDMap(ds.StudyInstanceUID)
             self.uid_mapping.add(ds)
             # track study
             studyuid = ds.StudyInstanceUID
@@ -57,15 +58,16 @@ class Scanner:
                     yield path
 
 class UIDMap(dict):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self._instances = defaultdict(dict)
+    def __init__(self, study_instance_uid):
+        self._study = ScrubbedUID(study_instance_uid)
 
     def add(self, ds):
         series_number = ds.SeriesNumber
-        instance_number = ds.InstanceNumber
         if series_number not in self:
-            self[series_number] = dict()
+            # this uid must remain constant across the study
+            self[series_number] = {
+                self._study.uid: self._study
+            }
         for tag in mrscrub.dicom.tags.ALL_UIDS:
             if tag in ds:
                 uid = ds[tag].value
@@ -74,29 +76,10 @@ class UIDMap(dict):
                 uid = ds.file_meta[tag].value
                 self[series_number].setdefault(uid, ScrubbedUID(uid))
 
-        # used for an optimization trick
-        if not instance_number in self._instances[series_number]:
-            self._instances[series_number][instance_number] = list()
-        for tag in mrscrub.dicom.tags.INSTANCE_UIDS:
-            if tag in ds:
-                uid = ds[tag].value
-                self._instances[series_number][instance_number].append(uid)
-            if tag in ds.file_meta:
-                uid = ds.file_meta[tag].value
-                self._instances[series_number][instance_number].append(uid)
-
-    def get_future_uids(self, series, start):
-        result = list()
-        for instance_number, uids in iter(self._instances[series].items()):
-            if instance_number > start:
-                result += uids
-        return result
-
 class ScrubbedUID:
     def __init__(self, uid):
         self.uid = uid
         self.generated = generate_uid()
-        self.pattern = re.compile(uid.encode('ascii'))
 
 class Study:
     def __init__(self, uid):

@@ -113,9 +113,9 @@ def main():
                             del ds[tag]
 
                 # save scrubbed file to deidentified file name
-                study_uid = ds['StudyInstanceUID'].value
-                series_number = ds['SeriesNumber'].value
-                instance_number = ds['InstanceNumber'].value
+                study_uid = ds.StudyInstanceUID
+                series_number = ds.SeriesNumber
+                instance_number = ds.InstanceNumber
                 prefix = f'{study_uid}-{series_number}-{instance_number}-'
                 handle, fullfile = tempfile.mkstemp(prefix=prefix, dir=args.output, suffix='.dcm')
                 os.close(handle)
