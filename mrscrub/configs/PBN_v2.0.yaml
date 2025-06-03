@@ -1,26 +1,6 @@
 # Harvard Neuroinformatics Research Group 
 dicom:
   fields:
-  - name: SiemensCSASeriesHeaderVersion
-    tag:
-    - 0x0029
-    - 0x1019
-    action:
-        replace-with: '19900101'
-  - name: SiemensCSASeriesHeaderInfo
-    tag:
-    - 0x0029
-    - 0x1020
-  - name: SiemensCSAImageHeaderVersion
-    tag:
-    - 0x0029
-    - 0x1009
-    action:
-        replace-with: '19900101'
-  - name: SiemensCSAImageHeaderInfo
-    tag:
-    - 0x0029
-    - 0x1010
   - name: AccessionNumber
     tag:
     - 0x0008
@@ -447,42 +427,6 @@ dicom:
     - 0x0050
     action:
         replace-with: ''
-  - name: InstanceCreationDate
-    tag:
-    - 0x0008
-    - 0x0012
-    action:
-        replace-with: '19900101'
-  - name: StudyDate
-    tag:
-    - 0x0008
-    - 0x0020
-    action:
-        replace-with: '19900101'
-  - name: SeriesDate
-    tag:
-    - 0x0008
-    - 0x0021
-    action:
-        replace-with: '19900101'
-  - name: AcquisitionDate
-    tag:
-    - 0x0008
-    - 0x0022
-    action:
-        replace-with: '19900101'
-  - name: ContentDate
-    tag:
-    - 0x0008
-    - 0x0023
-    action:
-        replace-with: '19900101'
-  - name: PerformedProcedureStepStartDate
-    tag:
-    - 0x0040
-    - 0x0244
-    action:
-        replace-with: '19900101'
   - name: ImageComments
     tag:
     - 0x0020
@@ -499,42 +443,6 @@ dicom:
         replace-sub:
             pattern: '\w+@bbl:\w+'
             replace-with: ''
-  - name: MediaStorageSOPInstanceUID
-    tag:
-    - 0x0002
-    - 0x0003
-    action:
-        new-uid: true
-  - name: SOPInstanceUID
-    tag:
-    - 0x0008
-    - 0x0018
-    action:
-        new-uid: true
-  - name: StudyInstanceUID
-    tag:
-    - 0x0020
-    - 0x000d
-    action:
-        new-uid: true
-  - name: SeriesInstanceUID
-    tag:
-    - 0x0020
-    - 0x000e
-    action:
-        new-uid: true
-  - name: FrameOfReferenceUID
-    tag:
-    - 0x0020
-    - 0x0052
-    action:
-        new-uid: true
-  - name: PerformedProcedureStepID
-    tag:
-    - 0x0040
-    - 0x0253
-    action:
-        replace-with: '19900101'
   - name: DeidentificationMethod
     tag:
     - 0x0012

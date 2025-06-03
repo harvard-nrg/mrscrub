@@ -28,7 +28,7 @@ def main():
     parser.add_argument('-o', '--output', type=Path, default='deidentified')
     parser.add_argument('-c', '--config', type=Path, default='PBN_v2.0')
     parser.add_argument('-r', '--recursive', action='store_true')
-    parser.add_argument('--scrub-csa-headers', action='store_true')
+    parser.add_argument('--rewrite-uids', action='store_true')
     parser.add_argument('--version', nargs=0, action='version')
     parser.add_argument('-v', '--verbose', action='store_true')
     args = parser.parse_args()
@@ -49,8 +49,8 @@ def main():
     scanner = Scanner(args.input)
     scanner.scan(recursive=args.recursive)
 
-    rewrite_uids = True
     num_instances = 0
+    args.scrub_csa_headers = False
 
     # start crawling over files
     logger.info(f'de-identifying {scanner.num_dicoms} dicom files')
@@ -61,8 +61,8 @@ def main():
                 num_instances += 1
                 pbar.update(1)
                 ds = pydicom.dcmread(instance.path)
-                # update uids
-                if rewrite_uids:
+                # rewrite uids
+                if args.rewrite_uids:
                     mapping = scanner.uid_mapping[series.number]
                     update_uids(ds, mapping)
                     update_referenced_uids(ds, mapping)

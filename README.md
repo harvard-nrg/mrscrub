@@ -1,10 +1,15 @@
 <img width="100" alt="logo" src="https://github.com/harvard-nrg/mrscrub/blob/main/ext/logo.png">
 
-
 Mr. Scrub: de-identify those DICOMs
 ===================================
-Mr. Scrub (or "MR scrub") is a command line tool to scrub away identifying 
-information from DICOM files.
+Mr. Scrub (or "MR scrub") is a command line tool to scrub identifying 
+information from DICOM files. 
+
+> [!WARNING]  
+> Siemens makes use of [Other Byte String](https://dicom.nema.org/dicom/2013/output/chtml/part05/sect_6.2.html) 
+> private headers e.g., CSA Image Header Info `(0029, 1010)` and CSA Series Header Info `(0029, 1020)`. These 
+> "binary blobs" are known to contain dates and UID references that embed dates. At this moment, MR Scrub does 
+> not offer a complete solution for scrubbing these types of headers.
 
 ## Table of contents
 1. [Documentation](#documentation)
@@ -13,7 +18,7 @@ information from DICOM files.
 4. [Usage](#usage)
 
 ## Documentation
-There's much more detailed documentation at [mrscrub.readthedocs.io](https://mrscrub.readthedocs.io).
+There's more detailed documentation at [mrscrub.readthedocs.io](https://mrscrub.readthedocs.io).
 
 ## Installation
 Just `pip`
@@ -24,14 +29,15 @@ python -m pip install mrscrub
 
 ## De-identification profiles
 De-identification profiles determine which DICOM fields should be scubbed and 
-how. You can find an example profile [here](https://github.com/harvard-nrg/mrscrub/blob/main/mrscrub/configs/PBN_v2.0.yaml).
-``mrscrub`` ships with some profiles by default, which you can load with
+how they should be scrubbed. You can find an example de-identifictation profile 
+[here](https://github.com/harvard-nrg/mrscrub/blob/main/mrscrub/configs/PBN_v2.0.yaml).
+``mrscrub`` ships with a few profiles by default, which you can load with
 
 ```bash
 scrub.py -c NAME [args]
 ```
 
-or you can create one yourself and pass in the file name 
+or you can create one yourself and pass the file name at the command line 
 
 ```bash
 scrub.py -c ./profile.yaml [args]
