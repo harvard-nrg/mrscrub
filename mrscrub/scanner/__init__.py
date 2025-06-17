@@ -21,8 +21,10 @@ class Scanner:
                 ds = pydicom.dcmread(path)
             except IsADirectoryError as e:
                 logger.debug(f'not a dicom file {path.name}')
+                continue
             except pydicom.errors.InvalidDicomError as e:
                 logger.debug(f'not a dicom file {path.name}')
+                continue
             # maintain mapping of uids to randomly generated uids
             if not self.uid_mapping:
                 self.uid_mapping = UIDMap(ds.StudyInstanceUID)
